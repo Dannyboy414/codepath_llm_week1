@@ -1,4 +1,3 @@
-
 # Student Record
 
 ## Student Information

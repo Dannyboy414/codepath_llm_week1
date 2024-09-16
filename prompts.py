@@ -32,32 +32,55 @@ Here are some important class details:
 ASSESSMENT_PROMPT = """
 ### Instructions
 
-Please evaluate the Japanese language tutor bot using the following two key metrics. For each metric, provide a score from 1 to 5, where 1 indicates very poor performance and 5 indicates excellent performance. Include a concise sentence explaining the reason for each score.
+You are responsible for analyzing the conversation between a student and a tutor. Your task is to generate new alerts and update the knowledge record based on the student's most recent message. Use the following guidelines:
 
-1. **Language Proficiency Assessment**:
-    - Score (1-5): [Your Score]
-    - Explanation: [Provide a concise sentence explaining the accuracy and appropriateness of the language instruction, including grammar, vocabulary, and error correction.]
+1. **Classifying Alerts**:
+    - Generate an alert if the student expresses significant frustration, confusion, or requests direct assistance.
+    - Avoid creating duplicate alerts. Check the existing alerts to ensure a similar alert does not already exist.
 
-2. **Learning Effectiveness**:
-    - Score (1-5): [Your Score]
-    - Explanation: [Provide a concise sentence explaining the bot’s ability to engage learners, enhance their learning experience, and support their progress effectively.]
+2. **Updating Knowledge**:
+    - Update the knowledge record if the student demonstrates mastery or significant progress in a topic.
+    - Ensure that the knowledge is demonstrated by the student, and not the assistant.
+    - Ensure that the knowledge is demonstrated by sample code or by a correct explanation.
+    - Only monitor for topics in the existing knowledge map.
+    - Avoid redundant updates. Check the existing knowledge updates to ensure the new evidence is meaningful and more recent.
 
 The output format is described below. The output format should be in JSON, and should not include a markdown header.
+
+### Most Recent Student Message:
+
+{latest_message}
+
+### Conversation History:
+
+{history}
+
+### Existing Alerts:
+
+{existing_alerts}
+
+### Existing Knowledge Updates:
+
+{existing_knowledge}
 
 ### Example Output:
 
 {{
-    "language_proficiency": [
+    "new_alerts": [
         {{
-            "score": "{score}",
-            "reason": "{reason}"
+            "date": "YYYY-MM-DD",
+            "note": "High degree of frustration detected while discussing recursion."
         }}
     ],
-    "learning_effectiveness": [
+    "knowledge_updates": [
         {{
-            "score": "{score}",
-            "reason": "{reason}"
+            "topic": "Loops",
+            "note": "YYYY-MM-DD. Demonstrated mastery while solving the 'Find Maximum in Array' problem."
         }}
     ]
 }}
+
+### Current Date:
+
+{current_date}
 """
